@@ -1,0 +1,26 @@
+package br.com.alura.loja.imposto;
+
+import java.math.BigDecimal;
+
+import br.com.alura.loja.orcamento.Orcamento;
+
+public abstract class Imposto {
+	private Imposto outro;
+	
+	public Imposto(Imposto outro) {
+		this.outro = outro;
+	}
+
+
+	protected abstract BigDecimal realizarCalcuculo(Orcamento orcamento);
+	
+	
+	public BigDecimal calcular(Orcamento orcamento) {
+		BigDecimal valorImposto = realizarCalcuculo(orcamento);
+		BigDecimal valorDoOutroImposto = BigDecimal.ZERO;
+		if(outro!=null)
+			valorDoOutroImposto =outro.realizarCalcuculo(orcamento);
+		
+		return valorImposto.add(valorDoOutroImposto);
+	};
+}
